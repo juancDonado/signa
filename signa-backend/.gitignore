@@ -1,0 +1,46 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+ENV/
+
+# Archivos de configuración sensibles
+.env
+.env.local
+.env.production
+secrets.py
+config.local.py
+
+# Base de datos
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+
+# Archivos temporales
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Docker 
+# docker-compose.override.yml

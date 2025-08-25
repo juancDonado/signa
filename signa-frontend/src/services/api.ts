@@ -1,6 +1,16 @@
 // Servicio de API para comunicarse con el backend
 
-import { LoginResponse, SignWithUser } from "@/types";
+import {
+  LoginRequest,
+  LoginResponse,
+  SignWithUser,
+  CreateSignRequest,
+  UpdateSignRequest,
+  SignResponse,
+  SignsListResponse,
+  UserResponse,
+  ErrorResponse,
+} from "@/types/api";
 
 const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
@@ -16,7 +26,9 @@ class ApiService {
 
   private async handleResponse<T>(response: Response): Promise<T> {
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
+      const errorData: ErrorResponse = await response
+        .json()
+        .catch(() => ({ error: "Error desconocido" }));
       throw new Error(
         errorData.error || `HTTP error! status: ${response.status}`
       );
@@ -25,10 +37,7 @@ class ApiService {
   }
 
   // Autenticación
-  async login(credentials: {
-    username: string;
-    password: string;
-  }): Promise<LoginResponse> {
+  async login(credentials: LoginRequest): Promise<LoginResponse> {
     const response = await fetch(`${API_BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
@@ -40,23 +49,25 @@ class ApiService {
   }
 
   // Marcas
-  async createSign(signData: any): Promise<any> {
+  async createSign(signData: CreateSignRequest): Promise<SignResponse> {
     const response = await fetch(`${API_BASE_URL}/sign/create`, {
       method: "POST",
       headers: this.getAuthHeaders(),
       body: JSON.stringify(signData),
     });
-    return this.handleResponse<any>(response);
+    return this.handleResponse<SignResponse>(response);
   }
 
-  async updateSign(signId: number, updateData: any): Promise<any> {
+  async updateSign(
+    signId: number,
+    updateData: UpdateSignRequest
+  ): Promise<SignResponse> {
     const response = await fetch(`${API_BASE_URL}/sign/${signId}`, {
       method: "PATCH",
       headers: this.getAuthHeaders(),
       body: JSON.stringify(updateData),
     });
-    console.log(response);
-    return this.handleResponse<any>(response);
+    return this.handleResponse<SignResponse>(response);
   }
 
   async getSigns(): Promise<SignWithUser[]> {
@@ -64,66 +75,71 @@ class ApiService {
       method: "GET",
       headers: this.getAuthHeaders(),
     });
-    return this.handleResponse<SignWithUser[]>(response);
+    const data: SignsListResponse =
+      await this.handleResponse<SignsListResponse>(response);
+    return data.data;
   }
 
-  async getSignById(signId: number): Promise<any> {
+  async getSignById(signId: number): Promise<SignResponse> {
     const response = await fetch(`${API_BASE_URL}/sign/${signId}`, {
       method: "GET",
       headers: this.getAuthHeaders(),
     });
-    return this.handleResponse<any>(response);
+    return this.handleResponse<SignResponse>(response);
   }
 
-  async deleteSign(signId: number): Promise<any> {
+  async deleteSign(signId: number): Promise<{ message: string }> {
     const response = await fetch(`${API_BASE_URL}/sign/${signId}`, {
       method: "DELETE",
       headers: this.getAuthHeaders(),
     });
-    return this.handleResponse<any>(response);
+    return this.handleResponse<{ message: string }>(response);
   }
 
   // Usuarios
-  async getUsers(): Promise<any[]> {
+  async getUsers(): Promise<UserResponse[]> {
     const response = await fetch(`${API_BASE_URL}/users`, {
       method: "GET",
       headers: this.getAuthHeaders(),
     });
-    return this.handleResponse<any[]>(response);
+    return this.handleResponse<UserResponse[]>(response);
   }
 
-  async getUserById(userId: number): Promise<any> {
+  async getUserById(userId: number): Promise<UserResponse> {
     const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
       method: "GET",
       headers: this.getAuthHeaders(),
     });
-    return this.handleResponse<any>(response);
+    return this.handleResponse<UserResponse>(response);
   }
 
-  async createUser(userData: any): Promise<any> {
+  async createUser(userData: CreateSignRequest): Promise<SignResponse> {
     const response = await fetch(`${API_BASE_URL}/users`, {
       method: "POST",
       headers: this.getAuthHeaders(),
       body: JSON.stringify(userData),
     });
-    return this.handleResponse<any>(response);
+    return this.handleResponse<SignResponse>(response);
   }
 
-  async updateUser(userId: number, updateData: any): Promise<any> {
+  async updateUser(
+    userId: number,
+    updateData: UpdateSignRequest
+  ): Promise<SignResponse> {
     const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
       method: "PATCH",
       headers: this.getAuthHeaders(),
       body: JSON.stringify(updateData),
     });
-    return this.handleResponse<any>(response);
+    return this.handleResponse<SignResponse>(response);
   }
 
-  async deleteUser(userId: number): Promise<any> {
+  async deleteUser(userId: number): Promise<{ message: string }> {
     const response = await fetch(`${API_BASE_URL}/users/${userId}`, {
       method: "DELETE",
       headers: this.getAuthHeaders(),
     });
-    return this.handleResponse<any>(response);
+    return this.handleResponse<{ message: string }>(response);
   }
 }
 

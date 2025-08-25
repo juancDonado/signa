@@ -34,7 +34,11 @@ export function useAuth() {
         setUser(JSON.parse(userData));
       } catch (error) {
         console.error("Error parsing user data:", error);
-        logout();
+        // Limpiar datos corruptos sin llamar a logout
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("user");
+        setToken(null);
+        setUser(null);
       }
     }
     setIsLoading(false);

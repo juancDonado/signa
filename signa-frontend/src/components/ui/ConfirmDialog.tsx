@@ -1,6 +1,5 @@
 "use client";
 
-import { Fragment } from "react";
 import { ExclamationTriangleIcon } from "@heroicons/react/24/outline";
 
 interface ConfirmDialogProps {

@@ -42,19 +42,13 @@ export default function MisMarcasPage() {
     try {
       setIsLoading(true);
       setError(""); // Limpiar errores previos
-      const response: any = await apiService.getSigns();
+      const response = await apiService.getSigns();
 
       console.log("Respuesta de la API getSigns:", response);
 
-      // Asegurar que response sea un array
+      // La respuesta ya viene como SignWithUser[]
       if (Array.isArray(response)) {
         setSigns(response);
-      } else if (response && Array.isArray(response.data)) {
-        // Si la respuesta tiene estructura { data: [...] }
-        setSigns(response.data);
-      } else if (response && response.signs && Array.isArray(response.signs)) {
-        // Si la respuesta tiene estructura { signs: [...] }
-        setSigns(response.signs);
       } else {
         console.warn("Respuesta inesperada de la API:", response);
         setSigns([]);
@@ -147,13 +141,15 @@ export default function MisMarcasPage() {
             </p>
           </div>
 
-          <button
-            onClick={() => router.push("/register-sign")}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            <PlusIcon className="h-4 w-4 mr-2" />
-            Nueva Marca
-          </button>
+          {Array.isArray(signs) && signs.length !== 0 && (
+            <button
+              onClick={() => router.push("/register-sign")}
+              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >
+              <PlusIcon className="h-4 w-4 mr-2" />
+              Registrar Marca
+            </button>
+          )}
         </div>
 
         {/* Mensajes de error y éxito */}

@@ -1,5 +1,9 @@
 // Tipos para la aplicación Signa Frontend
 
+// Re-exportar tipos de la API
+export * from "./api";
+
+// Tipos específicos de la aplicación
 export interface User {
   id: number;
   name: string;

@@ -15,7 +15,7 @@ export default function LoginPage() {
     }
   }, [router]);
 
-  const handleLoginSuccess = (token: string) => {
+  const handleLoginSuccess = (accessToken: string) => {
     router.push("/register-sign");
   };
 

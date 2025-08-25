@@ -14,10 +14,7 @@ const nextConfig = {
       },
     ];
   },
-  // Configuración adicional para desarrollo
-  experimental: {
-    appDir: true,
-  },
+
   // Configuración de imágenes
   images: {
     domains: ['localhost'],

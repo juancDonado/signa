@@ -70,7 +70,7 @@ export default function RegistroMarcaPage() {
     setSuccess("");
 
     try {
-      const response = await apiService.createSign(formData);
+      await apiService.createSign(formData);
       setSuccess("Marca creada exitosamente");
 
       // Limpiar formulario

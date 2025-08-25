@@ -3,7 +3,6 @@
 import { useState } from "react";
 import {
   DocumentTextIcon,
-  UserGroupIcon,
   ArrowRightOnRectangleIcon,
   Bars3Icon,
   XMarkIcon,

@@ -20,3 +20,10 @@ def create_app():
         db.create_all()
     
     return app
+
+# Crear la instancia de la app que Gunicorn necesita
+app = create_app()
+
+# Para desarrollo local
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5000)
